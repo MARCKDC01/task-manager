@@ -5,6 +5,8 @@ require_once "../Utils/GetDate.php";
 
 class User{
 
+
+
     public function __construct(){
         $this->conn = new Connection();
         $this->mysqli = $this->conn->dbConnect();
@@ -75,5 +77,5 @@ class User{
 
 $user = new User();
 //$user->save("test", "Test", "test@test.com", 123456);
-echo $user->login('test@test.com', 12345);
+//echo $user->login('test@test.com', 12345);
 
