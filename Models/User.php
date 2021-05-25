@@ -77,5 +77,5 @@ class User{
 
 $user = new User();
 //$user->save("test", "Test", "test@test.com", 123456);
-//echo $user->login('test@test.com', 12345);
+echo $user->login('test@test.com', 123456);
 
