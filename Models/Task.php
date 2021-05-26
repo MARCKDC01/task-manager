@@ -3,12 +3,7 @@ require_once "DataBase/connection.php";
 require_once "../Utils/GetDate.php";
 
 class Task{
-    private $taskId;
-    private $userId;
-    private $taskName;
-    private $taskDescription;
-    private $createAt;
-    private $updateAr;
+   
     
     function __construct(){
         $this->conn = new Connection();
@@ -93,8 +88,8 @@ class Task{
     }
 
     function update($userId, $taskId, $taskName, $taskDescription){
-        $task = new Task();
-        $sql = "UPDATE task SET task_name = '$taskName', task_description = '$taskDescription', updated_at = '$this->getDate '
+       
+        $sql = "UPDATE task SET task_name = '$taskName', task_description = '$taskDescription', updated_at = '$this->getDate'
                 WHERE task.user_id = '$userId' AND task.task_id = '$taskId'";
         $query = mysqli_query($this->mysqli, $sql);
 
@@ -118,9 +113,34 @@ class Task{
         return json_encode($json);  
     }
 
+    function delete($userId, $taskId){
+        $sql = "DELETE FROM task WHERE task_id = '$taskId' AND user_id = '$userId'";
+        $query = mysqli_query($this->mysqli, $sql);
+
+        if($query){
+            $data = array(
+                'code' => 200,
+                'status' => 'success',
+                'message' => 'Task deleted'
+            );
+            $json['task'][]=$data;
+        }else{
+            $data = array(
+                'code' => 404,
+                'status' => 'error',
+                'message' => 'The task was not removed'
+            );
+            $json['task'][]=$data;
+            
+        }
+
+        return json_encode($json);  
+    }
+
     function __destruct(){
         mysqli_close($this->mysqli);
     }
+
     
 }
 
@@ -129,4 +149,5 @@ $task = new Task();
 //echo $task->listAll(1);
 //echo $task->listOne(1,2);
 
- echo $task->update(1,2, "My  two updated", "This is my two task updated");
+ //echo $task->update(1,2, "My  two updated", "This is my two task updated");
+ echo $task->delete(1,1);

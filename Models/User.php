@@ -68,6 +68,55 @@ class User{
     
         return json_encode($json);
     }
+     function update($name, $surname, $idUser){
+         $sql = "UPDATE users SET name_user = '$name', surname_user = '$surname', update_at = '$this->getDate'
+                WHERE id_user = '$idUser'";
+        $query = mysqli_query($this->mysqli, $sql);
+
+        if($query == true){
+            $data = array(
+                'code' => 200,
+                'status' => 'success',
+                'message' => 'User  updated'
+            );
+            $json['users'][]=$data;
+        }else{
+            $data = array(
+                'code' => 404,
+                'status' => 'error',
+                'message' => 'User not updated'
+            );
+            $json['users'][]=$data;
+            
+        }
+
+        return json_encode($json); 
+     }
+
+     function updatePassword($idUser, $newPassword){
+        $sql = "UPDATE users SET pass_user = '$newPassword', update_at = '$this->getDate'
+                WHERE id_user = '$idUser'";
+        $query = mysqli_query($this->mysqli, $sql);
+
+        if($query == true){
+            $data = array(
+                'code' => 200,
+                'status' => 'success',
+                'message' => 'Password  updated'
+            );
+            $json['users'][]=$data;
+        }else{
+            $data = array(
+                'code' => 404,
+                'status' => 'error',
+                'message' => 'Pasword not updated'
+            );
+            $json['users'][]=$data;
+            
+        }
+
+        return json_encode($json); 
+     }
     public function __destruct(){
         mysqli_close($this->mysqli);
     }
@@ -77,5 +126,8 @@ class User{
 
 $user = new User();
 //$user->save("test", "Test", "test@test.com", 123456);
-echo $user->login('test@test.com', 123456);
+echo $user->login('test@test.com', 123);
+//echo $user->update('Marco', 'Torres', 2);
+//echo $user->updatePassword(1, 123);
+
 
